@@ -1,0 +1,58 @@
+entity User {
+    userId String,
+    name String,
+    accNo Integer,
+    email String,
+    passwordHash String
+}
+entity BankAccount {
+    userId String,
+    accNo Integer,
+    bankName String,
+    accType String,
+    accBalance Float
+}
+entity TradeHistory {
+    tradeId Integer,
+    userId String,
+    assetCode String,
+    tradePrice Float,
+    tradeType String,
+    tradeQuantity Integer,
+    tradeDate LocalDate
+}
+entity Preferences {
+    userId String,
+    investmentPurpose String,
+    riskTolerance Integer,
+    incomeCategory String,
+    investmentLength String
+}
+entity Stocks {
+    code String,
+    name String,
+    quantity Integer,
+    currentPrice Float,
+    stockType String,
+    exchange String
+}
+entity MutualFunds {
+    code String,
+    name String,
+    quantity Integer,
+    currentPrice Float,
+    mfType String,
+    interestRate String
+}
+entity Bonds {
+    code String,
+    name String,
+    quantity Integer,
+    currentPrice Float,
+    interestRate Float,
+    durationMonths Integer,
+    bondType String,
+    exchange String
+}
+
+service all with serviceImpl

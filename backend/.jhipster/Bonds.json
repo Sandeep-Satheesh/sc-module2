@@ -1,0 +1,48 @@
+{
+  "applications": "*",
+  "changelogDate": "20221021110713",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "bonds",
+  "fields": [
+    {
+      "fieldName": "code",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "quantity",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "currentPrice",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "interestRate",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "durationMonths",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "bondType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "exchange",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Bonds",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

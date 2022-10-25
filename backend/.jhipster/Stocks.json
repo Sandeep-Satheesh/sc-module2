@@ -1,0 +1,40 @@
+{
+  "applications": "*",
+  "changelogDate": "20221021110711",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "stocks",
+  "fields": [
+    {
+      "fieldName": "code",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "quantity",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "currentPrice",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "stockType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "exchange",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Stocks",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

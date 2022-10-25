@@ -1,0 +1,44 @@
+{
+  "applications": "*",
+  "changelogDate": "20221021110709",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "trade_history",
+  "fields": [
+    {
+      "fieldName": "tradeId",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "userId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "assetCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "tradePrice",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "tradeType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "tradeQuantity",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "tradeDate",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "TradeHistory",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

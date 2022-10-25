@@ -1,0 +1,1 @@
+org.springframework.test.context.ContextCustomizerFactory = org.smallchange.backend.config.TestContainersSpringContextCustomizerFactory

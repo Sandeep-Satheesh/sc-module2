@@ -1,0 +1,36 @@
+{
+  "applications": "*",
+  "changelogDate": "20221021110710",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "preferences",
+  "fields": [
+    {
+      "fieldName": "userId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "investmentPurpose",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "riskTolerance",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "incomeCategory",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "investmentLength",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Preferences",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

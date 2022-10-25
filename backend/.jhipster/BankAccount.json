@@ -1,0 +1,36 @@
+{
+  "applications": "*",
+  "changelogDate": "20221021110708",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "bank_account",
+  "fields": [
+    {
+      "fieldName": "userId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "accNo",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "bankName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "accType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "accBalance",
+      "fieldType": "Float"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "BankAccount",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

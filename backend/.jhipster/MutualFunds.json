@@ -1,0 +1,40 @@
+{
+  "applications": "*",
+  "changelogDate": "20221021110712",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "mutual_funds",
+  "fields": [
+    {
+      "fieldName": "code",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "quantity",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "currentPrice",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "mfType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "interestRate",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "MutualFunds",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}
