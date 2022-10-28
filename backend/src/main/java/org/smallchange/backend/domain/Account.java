@@ -7,53 +7,33 @@ import javax.persistence.*;
  * A BankAccount.
  */
 @Entity
-@Table(name = "bank_account")
+@Table(name = "sc_account")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class BankAccount implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
-    @Column(name = "id")
-    private Long id;
+public class Account implements Serializable {
 
     @Column(name = "user_id")
     private String userId;
 
-    @Column(name = "acc_no")
-    private Integer accNo;
+
+    @Id
+    @Column(name = "acct_no")
+    private String accNo;
 
     @Column(name = "bank_name")
     private String bankName;
 
-    @Column(name = "acc_type")
+    @Column(name = "acct_type")
     private String accType;
 
-    @Column(name = "acc_balance")
+    @Column(name = "acct_balance")
     private Float accBalance;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public BankAccount id(Long id) {
-        this.setId(id);
-        return this;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getUserId() {
         return this.userId;
     }
 
-    public BankAccount userId(String userId) {
+    public Account userId(String userId) {
         this.setUserId(userId);
         return this;
     }
@@ -62,16 +42,16 @@ public class BankAccount implements Serializable {
         this.userId = userId;
     }
 
-    public Integer getAccNo() {
+    public String getAccNo() {
         return this.accNo;
     }
 
-    public BankAccount accNo(Integer accNo) {
+    public Account accNo(String accNo) {
         this.setAccNo(accNo);
         return this;
     }
 
-    public void setAccNo(Integer accNo) {
+    public void setAccNo(String accNo) {
         this.accNo = accNo;
     }
 
@@ -79,7 +59,7 @@ public class BankAccount implements Serializable {
         return this.bankName;
     }
 
-    public BankAccount bankName(String bankName) {
+    public Account bankName(String bankName) {
         this.setBankName(bankName);
         return this;
     }
@@ -92,7 +72,7 @@ public class BankAccount implements Serializable {
         return this.accType;
     }
 
-    public BankAccount accType(String accType) {
+    public Account accType(String accType) {
         this.setAccType(accType);
         return this;
     }
@@ -105,7 +85,7 @@ public class BankAccount implements Serializable {
         return this.accBalance;
     }
 
-    public BankAccount accBalance(Float accBalance) {
+    public Account accBalance(Float accBalance) {
         this.setAccBalance(accBalance);
         return this;
     }
@@ -121,10 +101,10 @@ public class BankAccount implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof BankAccount)) {
+        if (!(o instanceof Account)) {
             return false;
         }
-        return id != null && id.equals(((BankAccount) o).id);
+        return userId != null && userId.equals(((Account) o).userId);
     }
 
     @Override
@@ -136,8 +116,7 @@ public class BankAccount implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "BankAccount{" +
-            "id=" + getId() +
+        return "Account{" +
             ", userId='" + getUserId() + "'" +
             ", accNo=" + getAccNo() +
             ", bankName='" + getBankName() + "'" +

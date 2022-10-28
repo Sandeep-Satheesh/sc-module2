@@ -42,12 +42,10 @@ public class TokenProvider {
     public TokenProvider(JHipsterProperties jHipsterProperties, SecurityMetersService securityMetersService) {
         byte[] keyBytes;
         String secret = jHipsterProperties.getSecurity().getAuthentication().getJwt().getBase64Secret();
-        String secret2 = jHipsterProperties.getSecurity().getAuthentication().getJwt().getSecret();
+
         if (!ObjectUtils.isEmpty(secret)) {
             log.debug("Using a Base64-encoded JWT secret key");
             keyBytes = Decoders.BASE64.decode(secret);
-            System.out.println("SECRET: " + secret2);
-            System.out.println("BYTES: " + keyBytes);
         } else {
             log.warn(
                 "Warning: the JWT key used is not Base64-encoded. " +
@@ -76,13 +74,17 @@ public class TokenProvider {
             validity = new Date(now + this.tokenValidityInMilliseconds);
         }
 
-        return Jwts
+        String jwt = Jwts
             .builder()
             .setSubject(authentication.getName())
             .claim(AUTHORITIES_KEY, authorities)
             .signWith(key, SignatureAlgorithm.HS512)
             .setExpiration(validity)
             .compact();
+
+        System.out.println("********JWT********: " + jwt);
+
+        return jwt;
     }
 
     public Authentication getAuthentication(String token) {

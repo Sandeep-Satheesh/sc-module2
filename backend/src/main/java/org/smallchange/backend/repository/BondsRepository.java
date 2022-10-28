@@ -1,6 +1,6 @@
 package org.smallchange.backend.repository;
 
-import org.smallchange.backend.domain.Bonds;
+import org.smallchange.backend.domain.Bond;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -9,4 +9,4 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface BondsRepository extends JpaRepository<Bonds, Long> {}
+public interface BondsRepository extends JpaRepository<Bond, String> {}

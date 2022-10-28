@@ -1,78 +1,172 @@
 package org.smallchange.backend.web.rest;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import java.util.Set;
-import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletRequest;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.smallchange.backend.security.SecurityUtils;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.smallchange.backend.domain.Account;
+import org.smallchange.backend.repository.BankAccountRepository;
+import org.smallchange.backend.service.BankAccountService;
+import org.smallchange.backend.web.rest.errors.BadRequestAlertException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.ResponseUtil;
 
+/**
+ * REST controller for managing {@link Account}.
+ */
 @RestController
 @RequestMapping("/api")
 public class AccountResource {
 
     private final Logger log = LoggerFactory.getLogger(AccountResource.class);
 
-    private static class AccountResourceException extends RuntimeException {}
+    private static final String ENTITY_NAME = "bankAccount";
 
-    /**
-     * {@code GET  /account} : get the current user.
-     *
-     * @return the current user.
-     * @throws AccountResourceException {@code 500 (Internal Server Error)} if the user couldn't be returned.
-     */
-    @GetMapping("/account")
-    public UserVM getAccount() {
-        String login = SecurityUtils.getCurrentUserLogin().orElseThrow(AccountResourceException::new);
-        Set<String> authorities = SecurityContextHolder
-            .getContext()
-            .getAuthentication()
-            .getAuthorities()
-            .stream()
-            .map(GrantedAuthority::getAuthority)
-            .collect(Collectors.toSet());
-        return new UserVM(login, authorities);
+    @Value("${jhipster.clientApp.name}")
+    private String applicationName;
+
+    private final BankAccountService bankAccountService;
+
+    private final BankAccountRepository bankAccountRepository;
+
+    public AccountResource(BankAccountService bankAccountService, BankAccountRepository bankAccountRepository) {
+        this.bankAccountService = bankAccountService;
+        this.bankAccountRepository = bankAccountRepository;
     }
 
     /**
-     * {@code GET  /authenticate} : check if the user is authenticated, and return its login.
+     * {@code POST  /bank-accounts} : Create a new bankAccount.
      *
-     * @param request the HTTP request.
-     * @return the login if the user is authenticated.
+     * @param bankAccount the bankAccount to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new bankAccount, or with status {@code 400 (Bad Request)} if the bankAccount has already an ID.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @GetMapping("/authenticate")
-    public String isAuthenticated(HttpServletRequest request) {
-        log.debug("REST request to check if the current user is authenticated");
-        return request.getRemoteUser();
+    @PostMapping("/bank-accounts")
+    public ResponseEntity<Account> createBankAccount(@RequestBody Account bankAccount) throws URISyntaxException {
+        log.debug("REST request to save BankAccount : {}", bankAccount);
+        if (bankAccount.getAccNo() != null) {
+            throw new BadRequestAlertException("A new bankAccount cannot already have an account number!", ENTITY_NAME, "idexists");
+        }
+        Account result = bankAccountService.save(bankAccount);
+        return ResponseEntity
+            .created(new URI("/api/bank-accounts/" + result.getAccNo()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getAccNo().toString()))
+            .body(result);
     }
 
-    private static class UserVM {
-
-        private String login;
-        private Set<String> authorities;
-
-        @JsonCreator
-        UserVM(String login, Set<String> authorities) {
-            this.login = login;
-            this.authorities = authorities;
+    /**
+     * {@code PUT  /bank-accounts/:id} : Updates an existing bankAccount.
+     *
+     * @param id the id of the bankAccount to save.
+     * @param bankAccount the bankAccount to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated bankAccount,
+     * or with status {@code 400 (Bad Request)} if the bankAccount is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the bankAccount couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PutMapping("/bank-accounts/{id}")
+    public ResponseEntity<Account> updateBankAccount(
+        @PathVariable(value = "id", required = false) final String id,
+        @RequestBody Account bankAccount
+    ) throws URISyntaxException {
+        log.debug("REST request to update BankAccount : {}, {}", id, bankAccount);
+        if (bankAccount.getAccNo() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        if (!Objects.equals(id, bankAccount.getAccNo())) {
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        public boolean isActivated() {
-            return true;
+        if (!bankAccountRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        public Set<String> getAuthorities() {
-            return authorities;
+        Account result = bankAccountService.update(bankAccount);
+        return ResponseEntity
+            .ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, bankAccount.getAccNo().toString()))
+            .body(result);
+    }
+
+    /**
+     * {@code PATCH  /bank-accounts/:id} : Partial updates given fields of an existing bankAccount, field will ignore if it is null
+     *
+     * @param id the id of the bankAccount to save.
+     * @param bankAccount the bankAccount to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated bankAccount,
+     * or with status {@code 400 (Bad Request)} if the bankAccount is not valid,
+     * or with status {@code 404 (Not Found)} if the bankAccount is not found,
+     * or with status {@code 500 (Internal Server Error)} if the bankAccount couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PatchMapping(value = "/bank-accounts/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    public ResponseEntity<Account> partialUpdateBankAccount(
+        @PathVariable(value = "id", required = false) final String id,
+        @RequestBody Account bankAccount
+    ) throws URISyntaxException {
+        log.debug("REST request to partial update BankAccount partially : {}, {}", id, bankAccount);
+        if (bankAccount.getAccNo() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        if (!Objects.equals(id, bankAccount.getAccNo())) {
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        public String getLogin() {
-            return login;
+        if (!bankAccountRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
+
+        Optional<Account> result = bankAccountService.partialUpdate(bankAccount);
+
+        return ResponseUtil.wrapOrNotFound(
+            result,
+            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, bankAccount.getAccNo().toString())
+        );
+    }
+
+    /**
+     * {@code GET  /bank-accounts} : get all the bankAccounts.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of bankAccounts in body.
+     */
+    @GetMapping("/bank-accounts")
+    public List<Account> getAllBankAccounts() {
+        log.debug("REST request to get all BankAccounts");
+        return bankAccountService.findAll();
+    }
+
+    /**
+     * {@code GET  /bank-accounts/:id} : get the "id" bankAccount.
+     *
+     * @param id the id of the bankAccount to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the bankAccount, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/bank-accounts/{id}")
+    public ResponseEntity<Account> getBankAccount(@PathVariable String id) {
+        log.debug("REST request to get BankAccount : {}", id);
+        Optional<Account> bankAccount = bankAccountService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(bankAccount);
+    }
+
+    /**
+     * {@code DELETE  /bank-accounts/:id} : delete the "id" bankAccount.
+     *
+     * @param id the id of the bankAccount to delete.
+     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
+     */
+    @DeleteMapping("/bank-accounts/{id}")
+    public ResponseEntity<Void> deleteBankAccount(@PathVariable String id) {
+        log.debug("REST request to delete BankAccount : {}", id);
+        bankAccountService.delete(id);
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
+            .build();
     }
 }

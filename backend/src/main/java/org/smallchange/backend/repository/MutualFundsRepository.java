@@ -1,6 +1,6 @@
 package org.smallchange.backend.repository;
 
-import org.smallchange.backend.domain.MutualFunds;
+import org.smallchange.backend.domain.MutualFund;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -9,4 +9,4 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface MutualFundsRepository extends JpaRepository<MutualFunds, Long> {}
+public interface MutualFundsRepository extends JpaRepository<MutualFund, String> {}

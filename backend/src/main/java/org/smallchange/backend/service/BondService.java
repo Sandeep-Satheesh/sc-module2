@@ -2,55 +2,56 @@ package org.smallchange.backend.service;
 
 import java.util.List;
 import java.util.Optional;
-import org.smallchange.backend.domain.Bonds;
+
+import org.smallchange.backend.domain.Bond;
 
 /**
- * Service Interface for managing {@link Bonds}.
+ * Service Interface for managing {@link Bond}.
  */
-public interface BondsService {
+public interface BondService {
     /**
      * Save a bonds.
      *
-     * @param bonds the entity to save.
+     * @param bond the entity to save.
      * @return the persisted entity.
      */
-    Bonds save(Bonds bonds);
+    Bond save(Bond bond);
 
     /**
      * Updates a bonds.
      *
-     * @param bonds the entity to update.
+     * @param bond the entity to update.
      * @return the persisted entity.
      */
-    Bonds update(Bonds bonds);
+    Bond update(Bond bond);
 
     /**
      * Partially updates a bonds.
      *
-     * @param bonds the entity to update partially.
+     * @param bond the entity to update partially.
      * @return the persisted entity.
      */
-    Optional<Bonds> partialUpdate(Bonds bonds);
+    Optional<Bond> partialUpdate(Bond bond);
 
     /**
      * Get all the bonds.
      *
      * @return the list of entities.
      */
-    List<Bonds> findAll();
+    List<Bond> findAll();
 
     /**
      * Get the "id" bonds.
      *
-     * @param id the id of the entity.
+     * @param code the id of the entity.
      * @return the entity.
      */
-    Optional<Bonds> findOne(Long id);
+    Optional<Bond> findOne(String code);
 
     /**
      * Delete the "id" bonds.
      *
-     * @param id the id of the entity.
+     * @param code the id of the entity.
      */
-    void delete(Long id);
+    void delete(String code);
 }

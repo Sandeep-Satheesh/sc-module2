@@ -34,7 +34,7 @@ entity Stocks {
     quantity Integer,
     currentPrice Float,
     stockType String,
-    exchange String
+    exchangeName String
 }
 entity MutualFunds {
     code String,
@@ -52,7 +52,7 @@ entity Bonds {
     interestRate Float,
     durationMonths Integer,
     bondType String,
-    exchange String
+    exchangeName String
 }
 
 service all with serviceImpl

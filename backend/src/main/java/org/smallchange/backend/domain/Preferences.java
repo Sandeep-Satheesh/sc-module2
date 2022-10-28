@@ -7,7 +7,7 @@ import javax.persistence.*;
  * A Preferences.
  */
 @Entity
-@Table(name = "preferences")
+@Table(name = "sc_preferences")
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class Preferences implements Serializable {
 

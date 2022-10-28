@@ -2,10 +2,11 @@ package org.smallchange.backend.service;
 
 import java.util.List;
 import java.util.Optional;
-import org.smallchange.backend.domain.BankAccount;
+
+import org.smallchange.backend.domain.Account;
 
 /**
- * Service Interface for managing {@link BankAccount}.
+ * Service Interface for managing {@link Account}.
  */
 public interface BankAccountService {
     /**
@@ -14,7 +15,7 @@ public interface BankAccountService {
      * @param bankAccount the entity to save.
      * @return the persisted entity.
      */
-    BankAccount save(BankAccount bankAccount);
+    Account save(Account bankAccount);
 
     /**
      * Updates a bankAccount.
@@ -22,7 +23,7 @@ public interface BankAccountService {
      * @param bankAccount the entity to update.
      * @return the persisted entity.
      */
-    BankAccount update(BankAccount bankAccount);
+    Account update(Account bankAccount);
 
     /**
      * Partially updates a bankAccount.
@@ -30,14 +31,14 @@ public interface BankAccountService {
      * @param bankAccount the entity to update partially.
      * @return the persisted entity.
      */
-    Optional<BankAccount> partialUpdate(BankAccount bankAccount);
+    Optional<Account> partialUpdate(Account bankAccount);
 
     /**
      * Get all the bankAccounts.
      *
      * @return the list of entities.
      */
-    List<BankAccount> findAll();
+    List<Account> findAll();
 
     /**
      * Get the "id" bankAccount.
@@ -45,12 +46,12 @@ public interface BankAccountService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<BankAccount> findOne(Long id);
+    Optional<Account> findOne(String id);
 
     /**
      * Delete the "id" bankAccount.
      *
      * @param id the id of the entity.
      */
-    void delete(Long id);
+    void delete(String id);
 }

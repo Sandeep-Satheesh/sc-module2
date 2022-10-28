@@ -8,7 +8,7 @@ import javax.persistence.*;
  * A TradeHistory.
  */
 @Entity
-@Table(name = "trade_history")
+@Table(name = "sc_trade_history")
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class TradeHistory implements Serializable {
 

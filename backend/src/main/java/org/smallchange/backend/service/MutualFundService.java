@@ -2,42 +2,43 @@ package org.smallchange.backend.service;
 
 import java.util.List;
 import java.util.Optional;
-import org.smallchange.backend.domain.MutualFunds;
+
+import org.smallchange.backend.domain.MutualFund;
 
 /**
- * Service Interface for managing {@link MutualFunds}.
+ * Service Interface for managing {@link MutualFund}.
  */
-public interface MutualFundsService {
+public interface MutualFundService {
     /**
      * Save a mutualFunds.
      *
-     * @param mutualFunds the entity to save.
+     * @param mutualFund the entity to save.
      * @return the persisted entity.
      */
-    MutualFunds save(MutualFunds mutualFunds);
+    MutualFund save(MutualFund mutualFund);
 
     /**
      * Updates a mutualFunds.
      *
-     * @param mutualFunds the entity to update.
+     * @param mutualFund the entity to update.
      * @return the persisted entity.
      */
-    MutualFunds update(MutualFunds mutualFunds);
+    MutualFund update(MutualFund mutualFund);
 
     /**
      * Partially updates a mutualFunds.
      *
-     * @param mutualFunds the entity to update partially.
+     * @param mutualFund the entity to update partially.
      * @return the persisted entity.
      */
-    Optional<MutualFunds> partialUpdate(MutualFunds mutualFunds);
+    Optional<MutualFund> partialUpdate(MutualFund mutualFund);
 
     /**
      * Get all the mutualFunds.
      *
      * @return the list of entities.
      */
-    List<MutualFunds> findAll();
+    List<MutualFund> findAll();
 
     /**
      * Get the "id" mutualFunds.
@@ -45,12 +46,12 @@ public interface MutualFundsService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<MutualFunds> findOne(Long id);
+    Optional<MutualFund> findOne(String code);
 
     /**
      * Delete the "id" mutualFunds.
      *
      * @param id the id of the entity.
      */
-    void delete(Long id);
+    void delete(String code);
 }

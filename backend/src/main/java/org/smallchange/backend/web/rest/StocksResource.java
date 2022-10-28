@@ -7,9 +7,9 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.smallchange.backend.domain.Stocks;
+import org.smallchange.backend.domain.Stock;
 import org.smallchange.backend.repository.StocksRepository;
-import org.smallchange.backend.service.StocksService;
+import org.smallchange.backend.service.StockService;
 import org.smallchange.backend.web.rest.errors.BadRequestAlertException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
- * REST controller for managing {@link org.smallchange.backend.domain.Stocks}.
+ * REST controller for managing {@link Stock}.
  */
 @RestController
 @RequestMapping("/api")
@@ -31,32 +31,32 @@ public class StocksResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final StocksService stocksService;
+    private final StockService stockService;
 
     private final StocksRepository stocksRepository;
 
-    public StocksResource(StocksService stocksService, StocksRepository stocksRepository) {
-        this.stocksService = stocksService;
+    public StocksResource(StockService stockService, StocksRepository stocksRepository) {
+        this.stockService = stockService;
         this.stocksRepository = stocksRepository;
     }
 
     /**
      * {@code POST  /stocks} : Create a new stocks.
      *
-     * @param stocks the stocks to create.
+     * @param stock the stocks to create.
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new stocks, or with status {@code 400 (Bad Request)} if the stocks has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/stocks")
-    public ResponseEntity<Stocks> createStocks(@RequestBody Stocks stocks) throws URISyntaxException {
-        log.debug("REST request to save Stocks : {}", stocks);
-        if (stocks.getId() != null) {
+    public ResponseEntity<Stock> createStocks(@RequestBody Stock stock) throws URISyntaxException {
+        log.debug("REST request to save Stocks : {}", stock);
+        if (stock.getCode() != null) {
             throw new BadRequestAlertException("A new stocks cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Stocks result = stocksService.save(stocks);
+        Stock result = stockService.save(stock);
         return ResponseEntity
-            .created(new URI("/api/stocks/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+            .created(new URI("/api/stocks/" + result.getCode()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getCode().toString()))
             .body(result);
     }
 
@@ -64,20 +64,20 @@ public class StocksResource {
      * {@code PUT  /stocks/:id} : Updates an existing stocks.
      *
      * @param id the id of the stocks to save.
-     * @param stocks the stocks to update.
+     * @param stock the stocks to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated stocks,
      * or with status {@code 400 (Bad Request)} if the stocks is not valid,
      * or with status {@code 500 (Internal Server Error)} if the stocks couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/stocks/{id}")
-    public ResponseEntity<Stocks> updateStocks(@PathVariable(value = "id", required = false) final Long id, @RequestBody Stocks stocks)
+    public ResponseEntity<Stock> updateStocks(@PathVariable(value = "id", required = false) final String id, @RequestBody Stock stock)
         throws URISyntaxException {
-        log.debug("REST request to update Stocks : {}, {}", id, stocks);
-        if (stocks.getId() == null) {
+        log.debug("REST request to update Stocks : {}, {}", id, stock);
+        if (stock.getCode() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, stocks.getId())) {
+        if (!Objects.equals(id, stock.getCode())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -85,10 +85,10 @@ public class StocksResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Stocks result = stocksService.update(stocks);
+        Stock result = stockService.update(stock);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, stocks.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, stock.getCode().toString()))
             .body(result);
     }
 
@@ -96,7 +96,7 @@ public class StocksResource {
      * {@code PATCH  /stocks/:id} : Partial updates given fields of an existing stocks, field will ignore if it is null
      *
      * @param id the id of the stocks to save.
-     * @param stocks the stocks to update.
+     * @param stock the stocks to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated stocks,
      * or with status {@code 400 (Bad Request)} if the stocks is not valid,
      * or with status {@code 404 (Not Found)} if the stocks is not found,
@@ -104,15 +104,15 @@ public class StocksResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/stocks/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public ResponseEntity<Stocks> partialUpdateStocks(
-        @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody Stocks stocks
+    public ResponseEntity<Stock> partialUpdateStocks(
+        @PathVariable(value = "id", required = false) final String id,
+        @RequestBody Stock stock
     ) throws URISyntaxException {
-        log.debug("REST request to partial update Stocks partially : {}, {}", id, stocks);
-        if (stocks.getId() == null) {
+        log.debug("REST request to partial update Stocks partially : {}, {}", id, stock);
+        if (stock.getCode() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, stocks.getId())) {
+        if (!Objects.equals(id, stock.getCode())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -120,11 +120,11 @@ public class StocksResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Optional<Stocks> result = stocksService.partialUpdate(stocks);
+        Optional<Stock> result = stockService.partialUpdate(stock);
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, stocks.getId().toString())
+            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, stock.getCode().toString())
         );
     }
 
@@ -134,9 +134,9 @@ public class StocksResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of stocks in body.
      */
     @GetMapping("/stocks")
-    public List<Stocks> getAllStocks() {
+    public List<Stock> getAllStocks() {
         log.debug("REST request to get all Stocks");
-        return stocksService.findAll();
+        return stockService.findAll();
     }
 
     /**
@@ -146,9 +146,9 @@ public class StocksResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the stocks, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/stocks/{id}")
-    public ResponseEntity<Stocks> getStocks(@PathVariable Long id) {
+    public ResponseEntity<Stock> getStocks(@PathVariable String id) {
         log.debug("REST request to get Stocks : {}", id);
-        Optional<Stocks> stocks = stocksService.findOne(id);
+        Optional<Stock> stocks = stockService.findOne(id);
         return ResponseUtil.wrapOrNotFound(stocks);
     }
 
@@ -159,9 +159,9 @@ public class StocksResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/stocks/{id}")
-    public ResponseEntity<Void> deleteStocks(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteStocks(@PathVariable String id) {
         log.debug("REST request to delete Stocks : {}", id);
-        stocksService.delete(id);
+        stockService.delete(id);
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
